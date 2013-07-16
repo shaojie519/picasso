@@ -40,7 +40,6 @@ public class RequestBuilder {
   private List<Transformation> transformations;
   private boolean skipCache;
   private boolean noFade;
-  private boolean hasNullPlaceholder;
   private int placeholderResId;
   private Drawable placeholderDrawable;
   private int errorResId;
@@ -93,7 +92,6 @@ public class RequestBuilder {
     if (placeholderResId != 0) {
       throw new IllegalStateException("Placeholder image already set.");
     }
-    this.hasNullPlaceholder = placeholderDrawable == null;
     this.placeholderDrawable = placeholderDrawable;
     return this;
   }
@@ -376,11 +374,6 @@ public class RequestBuilder {
   }
 
   private void setPlaceHolder(ImageView target) {
-    if (placeholderResId != 0 || placeholderDrawable != null) {
-      PicassoDrawable.setPlaceholder(target, picasso.context, placeholderResId, placeholderDrawable,
-          picasso.debugging);
-    } else if (hasNullPlaceholder) {
-      target.setImageDrawable(null);
-    }
+    PicassoDrawable.setPlaceholder(target, placeholderResId, placeholderDrawable);
   }
 }
